@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset='UTF-8'>
+  <title>gistachio demo</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.2/normalize.min.css">
+  <style>
+    body {
+      margin: 3em;
+    }
+    textarea {
+      font-family: monospace;
+      width: 140ch;
+      height: 72ch;
+      overflow: scroll;
+      display: block;
+      margin: 1.5em 0;
+    }
+  </style>
+  <script src="//stuartpb.github.io/loquate/loquate.js"></script>
+</head>
+<body>
+<h1>gistachio demo</h1>
+<div>
+  <p id="example-goes-here">
+  </p>
+  <form>
+    <h3>gistachio-is-cool.txt</h3>
+    <textarea id="gist-content">
+
+
+             tttt                                                        tttt            iiii
+          ttt:::t                                                     ttt:::t           i::::i
+          t:::::t                                                     t:::::t            iiii
+          t:::::t                                                     t:::::t
+    ttttttt:::::ttttttt        eeeeeeeeeeee        ssssssssss   ttttttt:::::ttttttt    iiiiiiinnnn  nnnnnnnn       ggggggggg   ggggg
+    t:::::::::::::::::t      ee::::::::::::ee    ss::::::::::s  t:::::::::::::::::t    i:::::in:::nn::::::::nn    g:::::::::ggg::::g
+    t:::::::::::::::::t     e::::::eeeee:::::eess:::::::::::::s t:::::::::::::::::t     i::::in::::::::::::::nn  g:::::::::::::::::g
+    tttttt:::::::tttttt    e::::::e     e:::::es::::::ssss:::::stttttt:::::::tttttt     i::::inn:::::::::::::::ng::::::ggggg::::::gg
+          t:::::t          e:::::::eeeee::::::e s:::::s  ssssss       t:::::t           i::::i  n:::::nnnn:::::ng:::::g     g:::::g
+          t:::::t          e:::::::::::::::::e    s::::::s            t:::::t           i::::i  n::::n    n::::ng:::::g     g:::::g
+          t:::::t          e::::::eeeeeeeeeee        s::::::s         t:::::t           i::::i  n::::n    n::::ng:::::g     g:::::g
+          t:::::t    tttttte:::::::e           ssssss   s:::::s       t:::::t    tttttt i::::i  n::::n    n::::ng::::::g    g:::::g
+          t::::::tttt:::::te::::::::e          s:::::ssss::::::s      t::::::tttt:::::ti::::::i n::::n    n::::ng:::::::ggggg:::::g
+          tt::::::::::::::t e::::::::eeeeeeee  s::::::::::::::s       tt::::::::::::::ti::::::i n::::n    n::::n g::::::::::::::::g
+            tt:::::::::::tt  ee:::::::::::::e   s:::::::::::ss          tt:::::::::::tti::::::i n::::n    n::::n  gg::::::::::::::g
+              ttttttttttt      eeeeeeeeeeeeee    sssssssssss              ttttttttttt  iiiiiiii nnnnnn    nnnnnn    gggggggg::::::g
+                                                                                                                            g:::::g
+                                                                                                                gggggg      g:::::g
+                                                                                                                g:::::gg   gg:::::g
+                                                                                                                 g::::::ggg:::::::g
+                                                                                                                  gg:::::::::::::g
+                                                                                                                    ggg::::::ggg
+                                                                                                                       gggggg
+    </textarea>
+    <button type="button" id="create-gist">Create new Gist</button>
+  </form>
+</div>
+<script src="gistachio.js"></script>
+<script>
+/* global gistachio */
+var exampleId = '30747828d7ce3c99852e';
+var authToken = null;
+gistachio.getFiles(exampleId, function(err,files) {
+  if(err) {
+    console.error(err);
+  } else {
+    document.getElementById('example-goes-here').textContent =
+      files['example.txt'];
+  }
+});
+document.getElementById('create-gist').addEventListener('click',
+  function createExampleGist() {
+    gistachio.postFiles({
+      'gistachio-is-cool.txt':
+        document.getElementById('gist-content').value
+      }, {public: !!authToken}, function(err, gistId) {
+      if(err) {
+        console.error(err);
+      } else {
+        location.href = 'https://gist.github.com/' + gistId;
+      }
+    });
+  });
+</script>
+</body>
+</html>
