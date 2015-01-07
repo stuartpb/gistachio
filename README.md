@@ -7,6 +7,10 @@ out there either have heavyweight dependencies like jQuery, or are written for
 Node.JS / browserify. I prefer my libraries to be lightweight and
 self-contained wherever possible.
 
+## Demo / examples
+
+See gistachio in action at https://stuartpb.github.io/gistachio/demo.html
+
 ## Requirements
 
 This script uses `addEventListener` on XMLHttpRequest to handle its loading and

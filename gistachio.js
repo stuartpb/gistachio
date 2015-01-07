@@ -86,7 +86,7 @@ var gistachio = {};
           cb(null, resFiles);
         }
       }
-    }
+    };
   }
 
   gistachio.getFiles = function getGistFiles(gistId, opts, cb) {
@@ -123,7 +123,7 @@ var gistachio = {};
       body: {files: files, description: opts.description, public: opts.public},
       authToken: opts.accessToken,
       username: opts.username,
-      password: opts.password}, receivePostResponse)
+      password: opts.password}, receivePostResponse);
   };
 
   gistachio.patchFiles = function patchGistFiles(gistId, files, opts, cb) {

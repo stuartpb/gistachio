@@ -9,12 +9,17 @@
       margin: 3em;
     }
     textarea {
-      font-family: monospace;
-      width: 140ch;
-      height: 72ch;
+      font-family: monospace,monospace; /*http://goo.gl/90S3wN*/
+      font-size: 10pt;
+      line-height: 1;
+      width: 100%;
+      max-width: 140ch;
+      height: 30em;
       overflow: scroll;
       display: block;
       margin: 1.5em 0;
+      white-space: pre;
+      word-wrap: normal;
     }
   </style>
   <script src="//stuartpb.github.io/loquate/loquate.js"></script>
@@ -24,9 +29,13 @@
 <div>
   <p id="example-goes-here">
   </p>
+  <p id="github-login-prompt">
+    The form below will create an anonymous gist;
+    <a href="https://github.com/login/oauth/authorize?client_id=b1b61eb74810488f2135&scope=gist">log in to GitHub</a> to save a gist to your account
+  </p>
   <form>
     <h3>gistachio-is-cool.txt</h3>
-    <textarea id="gist-content">
+    <textarea id="gist-content" spellcheck="false">
 
 
              tttt                                                        tttt            iiii
@@ -61,6 +70,81 @@
 /* global gistachio */
 var exampleId = '30747828d7ce3c99852e';
 var authToken = null;
+
+function reportGithubLoginError(err) {
+  console.error(err);
+  document.getElementById("github-login-prompt").textContent =
+    "Something went wrong when signing into GitHub. Check the console for errors.";
+}
+
+function onReqLoad(evt) {
+  try {
+    var body = JSON.parse(req.responseText);
+    // Apparently the login API will return 200 OK when there's a problem.
+    // That or it's just a bug in the proxy I'm using.
+    if (req.status < 400 && !body.error) {
+      if (body.scope.split(',').indexOf('gist') != -1) {
+        authToken = body.access_token;
+        document.getElementById("github-login-prompt").textContent =
+          'The form below will create a public gist owned by you.';
+      } else {
+        document.getElementById("github-login-prompt").innerHTML =
+          'You appear to have signed in to GitHub without giving this demo write access to gists; '+
+            '<a href="https://github.com/login/oauth/authorize?client_id=b1b61eb74810488f2135&scope=gist">try logging in again</a>';
+      }
+    } else {
+      reportGithubLoginError(body);
+    }
+  } catch (err) {
+    reportGithubLoginError(err);
+  }
+}
+
+if (location.query && location.query.code) {
+  var req = new XMLHttpRequest();
+
+  req.addEventListener('load', onReqLoad);
+  req.addEventListener('error', reportGithubLoginError);
+  req.addEventListener('abort', reportGithubLoginError);
+  req.addEventListener('timeout', reportGithubLoginError);
+
+  // TODO: get GitHub to put CORS headers on the OAuth endpoints
+  // Ironically, without those headers, this part actually *does* become
+  // less secure because it has to run through an untrusted proxy :(
+
+  req.open('POST', 'https://cors-anywhere.herokuapp.com/https://github.com/login/oauth/access_token', true);
+  req.setRequestHeader('Accept', 'application/json');
+  req.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+  req.send('code=' + encodeURIComponent(location.query.code) +
+    '&client_id=b1b61eb74810488f2135' +
+    '&client_secret=4e28b8427970acb4007495626c8e31dd28d5ebc6');
+
+/*                                                                    *\
+    ################################################################
+    ################################################################
+    ################################################################
+    ################################################################
+    ########                                                ########
+    ########          I T ' S   A   S E C R E T             ########
+    ########          T O   E V E R Y B O D Y .             ########
+    ########                                                ########
+    ########          ,(*;        }..{        ,(*;          ########
+    ########          (o2)        {--}        (o2)          ########
+    ########                                                ########
+    ########                       /\                       ########
+    ########                       \/                       ########
+    ########                                                ########
+    ########                                                ########
+    ########                                                ########
+    ########                                                ########
+    ############################        ############################
+    ############################        ############################
+    ############################        ############################
+    ############################        ############################
+\*                                                                    */
+
+}
+
 gistachio.getFiles(exampleId, function(err,files) {
   if(err) {
     console.error(err);
@@ -74,7 +158,7 @@ document.getElementById('create-gist').addEventListener('click',
     gistachio.postFiles({
       'gistachio-is-cool.txt':
         document.getElementById('gist-content').value
-      }, {public: !!authToken}, function(err, gistId) {
+      }, {accessToken: authToken, public: !!authToken}, function(err, gistId) {
       if(err) {
         console.error(err);
       } else {
