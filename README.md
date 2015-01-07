@@ -3,7 +3,7 @@
 Lightweight Gist JS functions for browsers.
 
 I made this because all the JS libraries I could find for working with Gists
-out there either hve heavyweight dependencies like jQuery, or are written for
+out there either have heavyweight dependencies like jQuery, or are written for
 Node.JS / browserify. I prefer my libraries to be lightweight and
 self-contained wherever possible.
 
