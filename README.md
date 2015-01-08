@@ -128,15 +128,18 @@ to any files in the gist. Any files not present in the `files` object will be
 new content for the named file), or an object with a `content` property
 containing the file's new content, and/or a `filename` property containing the
 file's new name. (To delete a file, use `{filename: null}` as the file's
-value.) [See the API documentation.][edit-a-gist] (The documentation doesn't
-specify how to add a file; presumably, any keys in `files` that don't match an
-existing file's name will be newly created. I haven't tested this yet.)
+value.) [See the API documentation.][edit-a-gist] Any keys in `files` that
+don't match an existing file's name will create a new file in the gist.
 
 [edit-a-gist]: https://developer.github.com/v3/gists/#edit-a-gist
 
-patchFiles can take a `description` option to edit the gist's description.
-(Presumably, it can also take a `public` option to change the gist's
-publication status, although this is not documented in the API documentation.)
+patchFiles can take a `description` option to edit the gist's description,
+providing the new description as the value. (Due to
+[an oversight in the API][isaacs/github#329], it is *not* currently possible
+to change the gist's publication status via the `public` option, the way it is
+when initially creating the gist.)
+
+[isaacs/github#329]: https://github.com/isaacs/github/issues/329
 
 As anonymous gists do not allow editing, this will need authentication in the
 form of `accessToken` or `username` and `password` options, for the user who

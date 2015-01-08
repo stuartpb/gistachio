@@ -108,9 +108,7 @@ if (location.query && location.query.code) {
   req.addEventListener('abort', reportGithubLoginError);
   req.addEventListener('timeout', reportGithubLoginError);
 
-  // TODO: get GitHub to put CORS headers on the OAuth endpoints
-  // Ironically, without those headers, this part actually *does* become
-  // less secure because it has to run through an untrusted proxy :(
+  // https://github.com/isaacs/github/issues/330
 
   req.open('POST', 'https://cors-anywhere.herokuapp.com/https://github.com/login/oauth/access_token', true);
   req.setRequestHeader('Accept', 'application/json');
