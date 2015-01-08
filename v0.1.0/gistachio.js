@@ -1,3 +1,8 @@
+// gistachio v0.1.0
+// Copyright 2015 Stuart P. Bentley.
+// This work may be used freely as long as this notice is included.
+// The work is provided "as is" without warranty, express or implied.
+
 var gistachio = {};
 (function(){
   // Note: technically, only the API is case-insensitive, the main

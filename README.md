@@ -158,3 +158,11 @@ If you want access to everything provided by the GitHub API, use a proper
 GitHub API JS module. This module is just for handling files (and posting the
 descriptions / public status because there's plenty of room for it in the
 design).
+
+## [License in Three Lines ![(LITL)](https://litl-license.org/logo.svg)][LITL]
+
+[LITL]: https://litl-license.org
+
+Copyright 2015 Stuart P. Bentley.<br>
+This work may be used freely as long as this notice is included.<br>
+The work is provided "as is" without warranty, express or implied.
