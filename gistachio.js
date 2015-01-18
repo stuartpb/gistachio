@@ -10,7 +10,7 @@ var gistachio = {};
   // upper-case characters (tested Jan 5 2015)
   // Similarly, this is slightly more permissive than it should be for
   // matching Git addresses (it'll accept a slash and a ".js", for example).
-  var gistUrlRegex = /^(?:(?:https?:)?\/\/|git@)?(?:gist\.github\.com(?:\/(?:[^\/]+\/)?|:)|api\.github\.com\/gists\/)?([0-9a-f]+)(?:\.js|\.git|\.html|\.json|\.pibb)?$/i;
+  var gistUrlRegex = /^(?:(?:https?:)?\/\/|git@)?(?:gist\.github\.com(?:\/(?:[^\/]+\/)?|:)|api\.github\.com\/gists\/)?([0-9a-f]+)\.\w*$/i;
   gistachio.parseGistId = function parseGistId(url) {
     var match = gistUrlRegex.exec(url);
     return match && match[1].toLowerCase();
