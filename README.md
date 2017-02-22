@@ -53,7 +53,8 @@ The potential values for `err` are:
 - A ProgressEvent passed to the event handler for one of XMLHttpRequest's
   non-successful load events: `error`, `abort`, or `timeout`. I couldn't find
   any documentation signifying how errors are signaled: again, the salient data
-  will likely
+  will likely be somewhere beentween a spec-compliant standard property and a
+  non-standard and browser-dependent feature of the error.
 
 ### Common options
 
